@@ -1,0 +1,22 @@
+<mat-toolbar class="home-toolbar"></mat-toolbar>
+<mat-card>
+  <p *ngIf="nbQuestions">{{ nbQuestions }} questions</p>
+  <h1>Mon test technique</h1>
+  <button
+    type="button"
+    mat-raised-button
+    color="primary"
+    [disabled]="!nbQuestions"
+    (click)="startQuizz()"
+  >
+    DÉMARRER
+  </button>
+</mat-card>
+<mat-progress-spinner
+  color="accent"
+  *ngIf="!nbQuestions"
+></mat-progress-spinner>
+<div class="home-score" *ngIf="bestScore">
+  <p>Meilleur score</p>
+  <p>{{ bestScore }} / 10</p>
+</div>
