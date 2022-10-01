@@ -1,1 +1,8 @@
-<p>question works!</p>
+<mat-toolbar class="question-toolbar">
+  <mat-toolbar-row>
+    <mat-card>
+      Question {{ questionIndex }} / {{ nbQuestions$ | async }}
+    </mat-card>
+    <mat-card>{{ timer$ | async }}</mat-card>
+  </mat-toolbar-row>
+</mat-toolbar>

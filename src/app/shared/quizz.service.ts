@@ -1,31 +1,43 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of } from 'rxjs';
-import { map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, interval, Observable } from 'rxjs';
+import { map, shareReplay, take, tap } from 'rxjs/operators';
 import { Question } from './question.model';
 
 const GET_QUESTIONS_URL = 'https://storage.googleapis.com/netwo-public/quizz.json';
 
 @Injectable({providedIn: 'root'})
 export class QuizzService {
-  private questionsSource = new BehaviorSubject<Question[]>([]);
+  private _questionsSource = new BehaviorSubject<Question[]>([]);
+  private _timerSource = new BehaviorSubject<number>(0);
 
   constructor(private readonly httpClient: HttpClient) {}
 
-  getQuestions(force = false): Observable<readonly Question[]> {
-    return of(force || !this.questionsSource.getValue().length).pipe(
-      switchMap(doInit => doInit ? this._retrieveQuestions() : of(void 0)),
-      switchMap(() => this.questionsSource.asObservable()),
-      shareReplay(1)
-    );
+  initQuestions(): Observable<readonly Question[]> {
+    return this.httpClient.get<Question[]>(GET_QUESTIONS_URL)
+      .pipe(tap(questions => this._questionsSource.next(questions)));
+  }
+
+  getQuestions(): Observable<readonly Question[]> {
+    return this._questionsSource.asObservable().pipe(shareReplay(1));
+  }
+
+  getNbQuestions(): Observable<number> {
+    return this.getQuestions().pipe(map(questions => questions.length));
   }
 
   getQuestion(index: number): Observable<Question | undefined> {
     return this.getQuestions().pipe(map(questions => questions[index]))
   }
 
-  private _retrieveQuestions(): Observable<readonly Question[]> {
-    return this.httpClient.get<Question[]>(GET_QUESTIONS_URL)
-      .pipe(tap(questions => this.questionsSource.next(questions)));
+  startTimer(nbSeconds = 120) {
+    return interval(1000).pipe(
+      take(nbSeconds),
+      tap(index => this._timerSource.next(index))
+    );
+  }
+
+  getTimer(): Observable<number> {
+    return this._timerSource.asObservable().pipe(shareReplay(1));
   }
 }
