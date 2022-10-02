@@ -3,16 +3,18 @@ import { AnswerTypeEnum } from './answer-type.enum';
 interface QuestionBase {
   label: string;
   answerType: AnswerTypeEnum;
-  choices: readonly string[];
+  isSuccess?: boolean;
 }
 
 export interface QuestionSingle extends QuestionBase {
+  choices: readonly string[];
   answerType: AnswerTypeEnum.Input | AnswerTypeEnum.Radio;
   answer: string;
 }
 
 export interface QuestionMultiple extends QuestionBase {
-  answerType: AnswerTypeEnum.Select;
+  choices: readonly string[];
+  answerType: AnswerTypeEnum.Checkbox;
   answers: readonly string[];
 }
 

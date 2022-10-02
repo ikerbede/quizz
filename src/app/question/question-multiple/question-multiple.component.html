@@ -1,0 +1,9 @@
+<form (submit)="validate()">
+  <div>
+    <mat-card *ngFor="let option of multipleOptions">
+      <span>{{ option.label }}</span>
+      <mat-checkbox [(ngModel)]="option.selected"></mat-checkbox>
+    </mat-card>
+  </div>
+  <button type="submit" mat-raised-button color="primary">VALIDER</button>
+</form>

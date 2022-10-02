@@ -30,6 +30,13 @@ export class QuizzService {
     return this.getQuestions().pipe(map(questions => questions[index]))
   }
 
+  setQuestionResult(label: string, isSuccess: boolean): void {
+    const questions = this._questionsSource.getValue();
+    const questionIndex = questions.findIndex(question => question.label === label);
+    questions[questionIndex].isSuccess = isSuccess;
+    this._questionsSource.next(questions);
+  }
+
   startTimer(nbSeconds = 120) {
     return interval(1000).pipe(
       take(nbSeconds),

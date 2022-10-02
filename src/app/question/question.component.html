@@ -6,3 +6,16 @@
     <mat-card>{{ timer$ | async }}</mat-card>
   </mat-toolbar-row>
 </mat-toolbar>
+<div *ngIf="question$ | async as question">
+  <p>{{ question.label }}</p>
+  <app-question-single
+    *ngIf="!(isMultiple$ | async)"
+    [question]="question | toSingle"
+    (result)="setResult(question.label, $event)"
+  ></app-question-single>
+  <app-question-multiple
+    *ngIf="isMultiple$ | async"
+    [question]="question | toMultiple"
+    (result)="setResult(question.label, $event)"
+  ></app-question-multiple>
+</div>
