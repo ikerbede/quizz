@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatListModule } from '@angular/material/list';
-import { last, Observable } from 'rxjs';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Observable } from 'rxjs';
 import { Question } from '../shared/question.model';
 import { QuizzService } from '../shared/quizz.service';
 import { ScorePipe } from '../shared/score.pipe';
@@ -12,6 +13,7 @@ import { ScorePipe } from '../shared/score.pipe';
   imports: [
     CommonModule,
     MatListModule,
+    MatToolbarModule,
     ScorePipe
   ],
   templateUrl: './results.component.html',
@@ -23,7 +25,7 @@ export class ResultsComponent {
   bestScore: number;
 
   constructor(private readonly quizzService: QuizzService) {
-    this.questions$ = this.quizzService.getQuestions().pipe(last());
+    this.questions$ = this.quizzService.getQuestions();
     this.score$ = this.quizzService.saveScore();
     this.bestScore = this.quizzService.getBestScore();
   }

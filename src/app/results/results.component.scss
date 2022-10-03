@@ -1,0 +1,64 @@
+$componentId: 'results';
+
+.#{$componentId} {
+  &-toolbar {
+    background: var(--toolbar-background-color);
+  }
+
+  &-content {
+    margin-top: 100px;
+    display: flex;
+    justify-content: space-around;
+
+    &-left, &-right {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &-left {
+      align-items: center;
+
+      &-title {
+        margin-bottom: 0;
+        font-weight: 600;
+        font-size: 24px;
+      }
+
+      &-score, &-sublabel {
+        font-weight: 900;
+        line-height: 120%;
+        color: #3C50E0;
+      }
+
+      &-score {
+        height: 100px;
+        margin-top: 24px;
+        margin-bottom: 0;
+        font-size: 100px;
+      }
+
+      &-sublabel {
+        margin-bottom: 24px;
+        font-size: 36px;
+      }
+    }
+
+    &-right {
+      &-title {
+        font-weight: 600;
+        font-size: 19px;
+      }
+
+      &-list-item-content {
+        width: 100%;
+        margin-bottom: 0;
+        display: flex;
+        justify-content: space-between;
+
+        &-label {
+          margin-right: 24px;
+        }
+      }
+    }
+  }
+}

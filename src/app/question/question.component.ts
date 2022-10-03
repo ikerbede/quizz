@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { AnswerTypeEnum } from '../shared/answer-type.enum';
 import { Question } from '../shared/question.model';
 import { QuizzService } from '../shared/quizz.service';
@@ -44,7 +44,7 @@ export class QuestionComponent {
     this.question$ = this.route.paramMap.pipe(
       map(params => parseInt(params.get('index')!)),
       tap(index => (this.questionIndex = index)),
-      switchMap(index => this.quizzService.getQuestion(index))
+      switchMap(index => this.quizzService.getQuestion(index - 1))
     );
     this.timer$ = this.quizzService.getTimer();
     this.isMultiple$ = this.question$.pipe(map(question => question?.answerType === AnswerTypeEnum.Checkbox));

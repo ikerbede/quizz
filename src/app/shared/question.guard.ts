@@ -14,11 +14,11 @@ export class QuestionGuard implements CanActivate {
 
     return this.quizzService.getNbQuestions().pipe(
       tap(nbQuestions => {
-        if (questionIndex === nbQuestions) {
+        if (questionIndex > nbQuestions) {
           this.router.navigate(['results']);
         }
       }),
-      map(nbQuestions => questionIndex > 0 && questionIndex <  nbQuestions)
+      map(nbQuestions => questionIndex > 0 && questionIndex <=  nbQuestions)
     );
   }
 }

@@ -1,16 +1,23 @@
-<div>
-  <p>Le quizz est terminé !</p>
-  <p>{{ score$ | async | score }}</p>
-  <p>réponses justes</p>
-  <p>Meilleur score: {{ bestScore | score }}</p>
-</div>
-<div>
-  <p>Détails des résultats :</p>
-  <mat-list>
-    <mat-list-item *ngFor="let question of questions$ | async">
-      <span>{{ question.label }}</span>
-      <span *ngIf="question.isSuccess">✔</span>
-      <span *ngIf="!question.isSuccess">✖</span>
-    </mat-list-item>
-  </mat-list>
+<mat-toolbar class="results-toolbar"></mat-toolbar>
+<div class="results-content">
+  <section class="results-content-left">
+    <p class="results-content-left-title">Le quizz est terminé !</p>
+    <p class="results-content-left-score">{{ score$ | async | score }}</p>
+    <p class="results-content-left-sublabel">réponses justes</p>
+    <p>Meilleur score: {{ bestScore | score }}</p>
+  </section>
+  <section class="results-content-right">
+    <p class="results-content-right-title">Détails des résultats :</p>
+    <mat-list>
+      <mat-list-item *ngFor="let question of questions$ | async">
+        <p class="results-content-right-list-item-content">
+          <span class="results-content-right-list-item-content-label">
+            {{ question.label }}
+          </span>
+          <span *ngIf="question.isSuccess" [style.color]="'green'">✔</span>
+          <span *ngIf="!question.isSuccess" [style.color]="'red'">✖</span>
+        </p>
+      </mat-list-item>
+    </mat-list>
+  </section>
 </div>
