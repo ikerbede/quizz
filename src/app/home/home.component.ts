@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router } from '@angular/router';
+import { Observable } from 'rxjs';
+import { last, shareReplay } from 'rxjs/operators';
 import { QuizzService } from '../shared/quizz.service';
-import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -21,26 +22,19 @@ import { Subject, takeUntil } from 'rxjs';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
-  nbQuestions = 0;
-  bestScore = 0;
-
-  private _destroy$ = new Subject<void>();
+export class HomeComponent {
+  nbQuestions$: Observable<number>;
+  bestScore: number;
 
   constructor(
     private readonly router: Router,
     private readonly quizzService: QuizzService
-  ) {}
-
-  ngOnInit(): void {
-    this.quizzService.getQuestions()
-      .pipe(takeUntil(this._destroy$))
-      .subscribe(questions => (this.nbQuestions = questions.length));
-  }
-
-  ngOnDestroy(): void {
-    this._destroy$.next();
-    this._destroy$.complete();
+  ) {
+    this.nbQuestions$ = this.quizzService.getNbQuestions().pipe(
+      last(),
+      shareReplay(1)
+    );
+    this.bestScore = this.quizzService.getBestScore();
   }
 
   startQuizz(): void {

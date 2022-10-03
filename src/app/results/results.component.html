@@ -1,1 +1,16 @@
-<p>results works!</p>
+<div>
+  <p>Le quizz est terminé !</p>
+  <p>{{ score$ | async | score }}</p>
+  <p>réponses justes</p>
+  <p>Meilleur score: {{ bestScore | score }}</p>
+</div>
+<div>
+  <p>Détails des résultats :</p>
+  <mat-list>
+    <mat-list-item *ngFor="let question of questions$ | async">
+      <span>{{ question.label }}</span>
+      <span *ngIf="question.isSuccess">✔</span>
+      <span *ngIf="!question.isSuccess">✖</span>
+    </mat-list-item>
+  </mat-list>
+</div>

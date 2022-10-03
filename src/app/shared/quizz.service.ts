@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
-import { map, shareReplay, take, tap } from 'rxjs/operators';
+import { last, map, mapTo, shareReplay, take, tap } from 'rxjs/operators';
 import { Question } from './question.model';
 
 const GET_QUESTIONS_URL = 'https://storage.googleapis.com/netwo-public/quizz.json';
@@ -35,6 +35,25 @@ export class QuizzService {
     const questionIndex = questions.findIndex(question => question.label === label);
     questions[questionIndex].isSuccess = isSuccess;
     this._questionsSource.next(questions);
+  }
+
+  saveScore(): Observable<number> {
+    return this.getQuestions().pipe(
+      last(),
+      map(questions => questions.filter(question => question.isSuccess).length),
+      tap(score => {
+        const bestScoreStr = localStorage.getItem('bestScore');
+        const bestScore = bestScoreStr ? Number.parseInt(bestScoreStr) : 0;
+        if (!bestScore || score > bestScore) {
+          localStorage.setItem('bestScore', String(score));
+        }
+      })
+    );
+  }
+
+  getBestScore(): number {
+    const bestScoreStr = localStorage.getItem('bestScore');
+    return bestScoreStr ? Number.parseInt(bestScoreStr) : 0;
   }
 
   startTimer(nbSeconds = 120) {

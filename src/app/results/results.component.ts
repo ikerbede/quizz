@@ -1,18 +1,30 @@
-import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component } from '@angular/core';
+import { MatListModule } from '@angular/material/list';
+import { last, Observable } from 'rxjs';
+import { Question } from '../shared/question.model';
+import { QuizzService } from '../shared/quizz.service';
+import { ScorePipe } from '../shared/score.pipe';
 
 @Component({
   selector: 'app-results',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    MatListModule,
+    ScorePipe
+  ],
   templateUrl: './results.component.html',
   styleUrls: ['./results.component.scss']
 })
-export class ResultsComponent implements OnInit {
+export class ResultsComponent {
+  questions$: Observable<readonly Question[]>;
+  score$: Observable<number>;
+  bestScore: number;
 
-  constructor() { }
-
-  ngOnInit(): void {
+  constructor(private readonly quizzService: QuizzService) {
+    this.questions$ = this.quizzService.getQuestions().pipe(last());
+    this.score$ = this.quizzService.saveScore();
+    this.bestScore = this.quizzService.getBestScore();
   }
-
 }

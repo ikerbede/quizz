@@ -1,12 +1,12 @@
 <mat-toolbar class="home-toolbar"></mat-toolbar>
 <mat-card>
-  <p *ngIf="nbQuestions">{{ nbQuestions }} questions</p>
+  <p *ngIf="nbQuestions$ | async">{{ nbQuestions$ | async }} questions</p>
   <h1>Mon test technique</h1>
   <button
     type="button"
     mat-raised-button
     color="primary"
-    [disabled]="!nbQuestions"
+    [disabled]="!(nbQuestions$ | async)"
     (click)="startQuizz()"
   >
     DÉMARRER
@@ -14,7 +14,7 @@
 </mat-card>
 <mat-progress-spinner
   color="accent"
-  *ngIf="!nbQuestions"
+  *ngIf="!(nbQuestions$ | async)"
 ></mat-progress-spinner>
 <div class="home-score" *ngIf="bestScore">
   <p>Meilleur score</p>
