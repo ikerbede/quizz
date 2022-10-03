@@ -41,7 +41,7 @@ export class QuestionMultipleComponent implements OnInit {
     const selectedOptions = this.multipleOptions.filter(option => option.selected);
     const answers = this.question.answers;
     const result = selectedOptions.length === answers.length
-      && selectedOptions.every((value, index) => value.label === answers[index]);
+      && selectedOptions.every(option => answers.includes(option.label));
     this.result.emit(result);
   }
 

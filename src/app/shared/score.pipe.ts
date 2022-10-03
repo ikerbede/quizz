@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Question, QuestionMultiple } from './question.model';
+import { environment } from 'src/environments/environment';
 
 @Pipe({
   name: 'score',
@@ -8,6 +8,8 @@ import { Question, QuestionMultiple } from './question.model';
 })
 export class ScorePipe implements PipeTransform {
   transform(score: number | null | undefined): string {
-    return score ? `${score < 10 ? '0' : ''}${score}/10` : '00/10';
+    return score
+      ? `${score < environment.scoreTotal ? '0' : ''}${score}/${environment.scoreTotal}`
+      : `00/${environment.scoreTotal}`;
   }
 }

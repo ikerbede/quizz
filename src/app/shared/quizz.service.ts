@@ -2,9 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { map, shareReplay, take, tap } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Question } from './question.model';
-
-const GET_QUESTIONS_URL = 'https://storage.googleapis.com/netwo-public/quizz.json';
 
 @Injectable({providedIn: 'root'})
 export class QuizzService {
@@ -14,7 +13,7 @@ export class QuizzService {
   constructor(private readonly httpClient: HttpClient) {}
 
   initQuestions(): Observable<readonly Question[]> {
-    return this.httpClient.get<Question[]>(GET_QUESTIONS_URL)
+    return this.httpClient.get<Question[]>(`${environment.publicApi}/quizz.json`)
       .pipe(tap(questions => this._questionsSource.next(questions)));
   }
 
@@ -39,7 +38,10 @@ export class QuizzService {
 
   saveScore(): Observable<number> {
     return this.getQuestions().pipe(
-      map(questions => questions.filter(question => question.isSuccess).length),
+      map(questions => {
+        const nbSuccess = questions.filter(question => question.isSuccess).length;
+        return nbSuccess * environment.scoreTotal / questions.length;
+      }),
       tap(score => {
         const bestScoreStr = localStorage.getItem('bestScore');
         const bestScore = bestScoreStr ? Number.parseInt(bestScoreStr) : 0;
