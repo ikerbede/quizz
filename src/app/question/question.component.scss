@@ -1,0 +1,30 @@
+$componentId: 'question';
+
+.#{$componentId} {
+  &-toolbar {
+    background: var(--toolbar-background-color);
+
+    &-row {
+      display: flex;
+      justify-content: space-between;
+
+      &-card {
+        height: 32px;
+        padding: 0 8px;
+      }
+    }
+  }
+
+  &-content {
+    height: 100%;
+    padding: 0 100px;
+    display: flex;
+    flex-direction: column;
+
+    &-label {
+      margin: 100px 16px;
+      font-weight: 600;
+      font-size: 24px;
+    }
+  }
+}

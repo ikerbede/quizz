@@ -1,8 +1,10 @@
+import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { QuizzService } from './quizz.service';
 
+@Injectable({providedIn: 'root'})
 export class QuestionGuard implements CanActivate {
   constructor(private readonly router: Router, private readonly quizzService: QuizzService) {}
 

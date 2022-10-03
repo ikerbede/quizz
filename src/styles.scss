@@ -1,4 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body {
+  margin: 0;
+  font-family: Inter, Roboto, "Helvetica Neue", sans-serif;
+  color: var(--color-primary);
+}
+
+:root {
+  --color-primary: #16175F;
+
+  --toolbar-background-color: linear-gradient(90deg, #0E0B77 0%, #2320B7 51.32%, #0E0B77 100%);
+}

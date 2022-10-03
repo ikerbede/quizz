@@ -1,13 +1,13 @@
 <mat-toolbar class="question-toolbar">
-  <mat-toolbar-row>
-    <mat-card>
+  <mat-toolbar-row class="question-toolbar-row">
+    <mat-card class="question-toolbar-row-card">
       Question {{ questionIndex }} / {{ nbQuestions$ | async }}
     </mat-card>
-    <mat-card>{{ timer$ | async }}</mat-card>
+    <mat-card class="question-toolbar-row-card">{{ timer$ | async }}</mat-card>
   </mat-toolbar-row>
 </mat-toolbar>
-<div *ngIf="question$ | async as question">
-  <p>{{ question.label }}</p>
+<div *ngIf="question$ | async as question" class="question-content">
+  <p class="question-content-label">{{ question.label }}</p>
   <app-question-single
     *ngIf="!(isMultiple$ | async)"
     [question]="question | toSingle"

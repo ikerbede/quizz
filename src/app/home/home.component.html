@@ -1,22 +1,26 @@
-<mat-toolbar class="home-toolbar"></mat-toolbar>
-<mat-card>
-  <p *ngIf="nbQuestions$ | async">{{ nbQuestions$ | async }} questions</p>
-  <h1>Mon test technique</h1>
-  <button
-    type="button"
-    mat-raised-button
-    color="primary"
-    [disabled]="!(nbQuestions$ | async)"
-    (click)="startQuizz()"
-  >
-    DÉMARRER
-  </button>
-</mat-card>
-<mat-progress-spinner
-  color="accent"
-  *ngIf="!(nbQuestions$ | async)"
-></mat-progress-spinner>
-<div class="home-score" *ngIf="bestScore">
-  <p>Meilleur score</p>
-  <p>{{ bestScore }} / 10</p>
+<div class="home-top"></div>
+<div class="home-bottom"></div>
+
+<div class="home-content">
+  <mat-card class="home-content-card">
+    <p *ngIf="nbQuestions$ | async">{{ nbQuestions$ | async }} questions</p>
+    <h1>Mon test technique</h1>
+    <button
+      type="button"
+      mat-raised-button
+      color="primary"
+      [disabled]="!(nbQuestions$ | async)"
+      (click)="startQuizz()"
+    >
+      DÉMARRER
+    </button>
+  </mat-card>
+  <mat-progress-spinner
+    color="accent"
+    *ngIf="!(nbQuestions$ | async)"
+  ></mat-progress-spinner>
+  <div class="home-content-score">
+    <p>Meilleur score</p>
+    <p>{{ bestScore | score }}</p>
+  </div>
 </div>

@@ -6,7 +6,7 @@ import { QuestionGuard } from './question.guard';
 
 export const QUIZZ_ROUTES: Routes = [
   { path: 'home', component: HomeComponent },
-  { path: 'questions/:id', component: QuestionComponent, canActivate: [QuestionGuard] },
+  { path: 'questions/:index', component: QuestionComponent, canActivate: [QuestionGuard] },
   { path: 'results', component: ResultsComponent },
   { path: '',   redirectTo: '/home', pathMatch: 'full' }
 ];
