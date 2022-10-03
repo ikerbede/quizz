@@ -1,9 +1,25 @@
-<form (submit)="validate()">
-  <div>
-    <mat-card *ngFor="let option of multipleOptions">
-      <span>{{ option.label }}</span>
-      <mat-checkbox [(ngModel)]="option.selected"></mat-checkbox>
+<form class="question-multiple" (submit)="validate()">
+  <div class="question-multiple-choices">
+    <mat-card
+      *ngFor="let option of multipleOptions; index as i; even as isEven"
+      class="question-multiple-choices-card"
+      [class.question-multiple-choices-card--even]="isEven"
+    >
+      <span class="question-multiple-choices-card-label">
+        {{ option.label }}
+      </span>
+      <mat-checkbox
+        [name]="'option-' + i"
+        [(ngModel)]="option.selected"
+      ></mat-checkbox>
     </mat-card>
   </div>
-  <button type="submit" mat-raised-button color="primary">VALIDER</button>
+  <button
+    type="submit"
+    class="question-multiple-submit"
+    mat-raised-button
+    color="primary"
+  >
+    VALIDER
+  </button>
 </form>
