@@ -16,7 +16,7 @@ $componentId: 'question';
   }
 
   &-content {
-    height: 100%;
+    height: calc(100% - 64px);
     padding: 0 100px;
     display: flex;
     flex-direction: column;

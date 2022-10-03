@@ -1,24 +1,30 @@
-<form (submit)="validate()">
+<form class="question-single" (submit)="validate()">
   <mat-form-field
     *ngIf="question.answerType === answerTypeEnum.Input"
+    class="question-single-formfield"
     appearance="outline"
-    [formControl]="singleControl"
   >
     <mat-label>Votre réponse</mat-label>
-    <input type="text" matInput />
+    <input type="text" matInput [formControl]="singleControl" />
   </mat-form-field>
   <mat-radio-group
     *ngIf="question.answerType === answerTypeEnum.Radio"
+    class="question-single-choices"
     color="accent"
     [formControl]="singleControl"
   >
-    <mat-card *ngFor="let choice of question.choices">
-      <span>{{ choice }}</span>
+    <mat-card
+      *ngFor="let choice of question.choices; even as isEven"
+      class="question-single-choices-card"
+      [class.question-single-choices-card--even]="isEven"
+    >
+      <span class="question-single-choices-card-label">{{ choice }}</span>
       <mat-radio-button [value]="choice"></mat-radio-button>
     </mat-card>
   </mat-radio-group>
   <button
     type="submit"
+    class="question-single-submit"
     mat-raised-button
     color="primary"
     [disabled]="!singleControl.value"

@@ -6,8 +6,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatRadioModule } from '@angular/material/radio';
+import { RouterModule } from '@angular/router';
 import { AnswerTypeEnum } from 'src/app/shared/answer-type.enum';
-import { Question, QuestionSingle } from 'src/app/shared/question.model';
+import { QuestionSingle } from 'src/app/shared/question.model';
 
 @Component({
   selector: 'app-question-single',
@@ -16,6 +17,7 @@ import { Question, QuestionSingle } from 'src/app/shared/question.model';
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
     MatButtonModule,
     MatCardModule,
     MatFormFieldModule,
@@ -38,6 +40,6 @@ export class QuestionSingleComponent {
   validate(): void {
     const result = this.singleControl.value === this.question.answer;
     this.result.emit(result);
+    this.singleControl.reset();
   }
-
 }

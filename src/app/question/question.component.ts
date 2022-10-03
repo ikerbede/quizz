@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, take } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { AnswerTypeEnum } from '../shared/answer-type.enum';
 import { Question } from '../shared/question.model';
 import { QuizzService } from '../shared/quizz.service';
@@ -29,7 +29,7 @@ import { QuestionSingleComponent } from './question-single/question-single.compo
   styleUrls: ['./question.component.scss']
 })
 export class QuestionComponent {
-  questionIndex!: number;
+  questionIndex = 0;
   nbQuestions$: Observable<number>;
   question$: Observable<Question | undefined>;
   timer$: Observable<number>;
@@ -40,10 +40,12 @@ export class QuestionComponent {
     private readonly router: Router,
     private readonly quizzService: QuizzService
   ) {
-    const indexParam = this.route.snapshot.paramMap.get('index');
-    this.questionIndex = indexParam ? Number.parseInt(indexParam) : 0;
     this.nbQuestions$ = this.quizzService.getNbQuestions();
-    this.question$ = this.quizzService.getQuestion(this.questionIndex).pipe(take(1));
+    this.question$ = this.route.paramMap.pipe(
+      map(params => parseInt(params.get('index')!)),
+      tap(index => (this.questionIndex = index)),
+      switchMap(index => this.quizzService.getQuestion(index))
+    );
     this.timer$ = this.quizzService.getTimer();
     this.isMultiple$ = this.question$.pipe(map(question => question?.answerType === AnswerTypeEnum.Checkbox));
   }
