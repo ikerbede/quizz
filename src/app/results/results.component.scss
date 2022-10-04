@@ -41,6 +41,17 @@ $componentId: 'results';
         margin-bottom: 24px;
         font-size: 36px;
       }
+
+      &-subcontainer {
+        display: flex;
+        align-items: center;
+
+        &-new {
+          margin-left: 16px;
+          color: #54BDB8;
+          background-color: var(--color-secondary);
+        }
+      }
     }
 
     &-right {

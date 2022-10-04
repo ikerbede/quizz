@@ -4,7 +4,16 @@
     <p class="results-content-left-title">Le quizz est terminé !</p>
     <p class="results-content-left-score">{{ score$ | async | score }}</p>
     <p class="results-content-left-sublabel">réponses justes</p>
-    <p>Meilleur score: {{ bestScore | score }}</p>
+    <div class="results-content-left-subcontainer">
+      <span>Meilleur score: {{ bestScore | score }}</span>
+      <button
+        class="results-content-left-subcontainer-new"
+        mat-raised-button
+        (click)="goHome()"
+      >
+        NEW!
+      </button>
+    </div>
   </section>
   <section class="results-content-right">
     <p class="results-content-right-title">Détails des résultats :</p>
