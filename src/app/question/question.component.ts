@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { map, switchMap, tap } from 'rxjs/operators';
 import { AnswerTypeEnum } from '../shared/answer-type.enum';
 import { Question } from '../shared/question.model';
+import { QuizzRouteEnum } from '../shared/quizz-routes.constant';
 import { QuizzService } from '../shared/quizz.service';
 import { ToMultiplePipe } from '../shared/to-multiple.pipe';
 import { ToSinglePipe } from '../shared/to-single.pipe';
@@ -52,7 +53,7 @@ export class QuestionComponent {
 
   setResult(label: string, isSuccess: boolean) {
     this.quizzService.setQuestionResult(label, isSuccess);
-    this.router.navigate(['questions', this.questionIndex + 1]);
+    this.router.navigate([QuizzRouteEnum.Questions, this.questionIndex + 1]);
   }
 
 }

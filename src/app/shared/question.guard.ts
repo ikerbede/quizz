@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { QuizzRouteEnum } from './quizz-routes.constant';
 import { QuizzService } from './quizz.service';
 
 @Injectable({providedIn: 'root'})
@@ -15,7 +16,7 @@ export class QuestionGuard implements CanActivate {
     return this.quizzService.getNbQuestions().pipe(
       tap(nbQuestions => {
         if (questionIndex > nbQuestions) {
-          this.router.navigate(['results']);
+          this.router.navigate([QuizzRouteEnum.Results]);
         }
       }),
       map(nbQuestions => questionIndex > 0 && questionIndex <=  nbQuestions)

@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { shareReplay, switchMap } from 'rxjs/operators';
+import { QuizzRouteEnum } from '../shared/quizz-routes.constant';
 import { QuizzService } from '../shared/quizz.service';
 import { ScorePipe } from '../shared/score.pipe';
 
@@ -39,6 +40,6 @@ export class HomeComponent {
 
   startQuizz(): void {
     this.quizzService.startTimer().subscribe();
-    this.router.navigate(['questions', 1]);
+    this.router.navigate([QuizzRouteEnum.Questions, 1]);
   }
 }

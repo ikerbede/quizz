@@ -5,6 +5,7 @@ import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { map, shareReplay, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Question } from './question.model';
+import { QuizzRouteEnum } from './quizz-routes.constant';
 
 @Injectable({providedIn: 'root'})
 export class QuizzService {
@@ -68,7 +69,7 @@ export class QuizzService {
       map(index => (nbSeconds - index - 1)),
       tap(count => {
         if (count === 0) {
-          this.router.navigate(['results']);
+          this.router.navigate([QuizzRouteEnum.Results]);
         }
         this._timerSource.next(count);
       })

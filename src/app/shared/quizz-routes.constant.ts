@@ -4,9 +4,15 @@ import { QuestionComponent } from '../question/question.component';
 import { ResultsComponent } from '../results/results.component';
 import { QuestionGuard } from './question.guard';
 
+export enum QuizzRouteEnum {
+  Home = 'home',
+  Questions = 'questions',
+  Results = 'results'
+}
+
 export const QUIZZ_ROUTES: Routes = [
-  { path: 'home', component: HomeComponent },
-  { path: 'questions/:index', component: QuestionComponent, canActivate: [QuestionGuard] },
-  { path: 'results', component: ResultsComponent },
-  { path: '',   redirectTo: '/home', pathMatch: 'full' }
+  { path: QuizzRouteEnum.Home, component: HomeComponent },
+  { path: `${QuizzRouteEnum.Questions}/:index`, component: QuestionComponent, canActivate: [QuestionGuard] },
+  { path: QuizzRouteEnum.Results, component: ResultsComponent },
+  { path: '',   redirectTo: `/${QuizzRouteEnum.Home}`, pathMatch: 'full' }
 ];
