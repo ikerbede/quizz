@@ -67,7 +67,7 @@ export class QuizzService {
     return bestScoreStr ? Number.parseInt(bestScoreStr) : 0;
   }
 
-  startTimer(nbSeconds = 10): Observable<number> {
+  startTimer(nbSeconds = 120): Observable<number> {
     this._timerSource = new BehaviorSubject<number>(nbSeconds);
     return interval(1000).pipe(
       take(nbSeconds),
