@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { map, shareReplay, take, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
@@ -8,9 +9,12 @@ import { Question } from './question.model';
 @Injectable({providedIn: 'root'})
 export class QuizzService {
   private _questionsSource = new BehaviorSubject<Question[]>([]);
-  private _timerSource = new BehaviorSubject<number>(0);
+  private _timerSource!: BehaviorSubject<number>;
 
-  constructor(private readonly httpClient: HttpClient) {}
+  constructor(
+    private readonly httpClient: HttpClient,
+    private readonly router: Router
+  ) {}
 
   initQuestions(): Observable<readonly Question[]> {
     return this.httpClient.get<Question[]>(`${environment.publicApi}/quizz.json`)
@@ -57,10 +61,17 @@ export class QuizzService {
     return bestScoreStr ? Number.parseInt(bestScoreStr) : 0;
   }
 
-  startTimer(nbSeconds = 120) {
+  startTimer(nbSeconds = 10): Observable<number> {
+    this._timerSource = new BehaviorSubject<number>(nbSeconds);
     return interval(1000).pipe(
       take(nbSeconds),
-      tap(index => this._timerSource.next(index))
+      map(index => (nbSeconds - index - 1)),
+      tap(count => {
+        if (count === 0) {
+          this.router.navigate(['results']);
+        }
+        this._timerSource.next(count);
+      })
     );
   }
 

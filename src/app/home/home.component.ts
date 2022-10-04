@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { last, shareReplay, switchMap } from 'rxjs/operators';
+import { shareReplay, switchMap } from 'rxjs/operators';
 import { QuizzService } from '../shared/quizz.service';
 import { ScorePipe } from '../shared/score.pipe';
 
@@ -38,6 +38,7 @@ export class HomeComponent {
   }
 
   startQuizz(): void {
+    this.quizzService.startTimer().subscribe();
     this.router.navigate(['questions', 1]);
   }
 }
