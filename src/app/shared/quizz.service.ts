@@ -3,11 +3,11 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, interval, Observable } from 'rxjs';
 import { map, shareReplay, take, tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { Question } from './question.model';
 import { QuizzRouteEnum } from './quizz-routes.constant';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class QuizzService {
   private _questionsSource = new BehaviorSubject<Question[]>([]);
   private _timerSource!: BehaviorSubject<number>;
@@ -18,8 +18,9 @@ export class QuizzService {
   ) {}
 
   initQuestions(): Observable<readonly Question[]> {
-    return this.httpClient.get<Question[]>(`${environment.publicApi}/quizz.json`)
-      .pipe(tap(questions => this._questionsSource.next(questions)));
+    return this.httpClient
+      .get<Question[]>(`${environment.publicApi}/quizz.json`)
+      .pipe(tap((questions) => this._questionsSource.next(questions)));
   }
 
   getQuestions(): Observable<readonly Question[]> {
@@ -27,27 +28,31 @@ export class QuizzService {
   }
 
   getNbQuestions(): Observable<number> {
-    return this.getQuestions().pipe(map(questions => questions.length));
+    return this.getQuestions().pipe(map((questions) => questions.length));
   }
 
   getQuestion(index: number): Observable<Question | undefined> {
-    return this.getQuestions().pipe(map(questions => questions[index]))
+    return this.getQuestions().pipe(map((questions) => questions[index]));
   }
 
   setQuestionResult(label: string, isSuccess: boolean): void {
     const questions = this._questionsSource.getValue();
-    const questionIndex = questions.findIndex(question => question.label === label);
+    const questionIndex = questions.findIndex(
+      (question) => question.label === label
+    );
     questions[questionIndex].isSuccess = isSuccess;
     this._questionsSource.next(questions);
   }
 
   saveScore(): Observable<number> {
     return this.getQuestions().pipe(
-      map(questions => {
-        const nbSuccess = questions.filter(question => question.isSuccess).length;
-        return nbSuccess * environment.scoreTotal / questions.length;
+      map((questions) => {
+        const nbSuccess = questions.filter(
+          (question) => question.isSuccess
+        ).length;
+        return (nbSuccess * environment.scoreTotal) / questions.length;
       }),
-      tap(score => {
+      tap((score) => {
         const bestScoreStr = localStorage.getItem('bestScore');
         const bestScore = bestScoreStr ? Number.parseInt(bestScoreStr) : 0;
         if (!bestScore || score > bestScore) {
@@ -66,8 +71,8 @@ export class QuizzService {
     this._timerSource = new BehaviorSubject<number>(nbSeconds);
     return interval(1000).pipe(
       take(nbSeconds),
-      map(index => (nbSeconds - index - 1)),
-      tap(count => {
+      map((index) => nbSeconds - index - 1),
+      tap((count) => {
         if (count === 0) {
           this.router.navigate([QuizzRouteEnum.Results]);
         }
